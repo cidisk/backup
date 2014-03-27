@@ -1,0 +1,1296 @@
+#coding=gbk
+'''
+Created on Feb 27, 2014
+
+@author: caiduo02@baidu.com
+'''
+
+import copy, string, json
+import os,sys, os.path
+from new_dsp_ad_branch_pb2 import ADBranch
+from google.protobuf.text_format import MessageToBranch
+
+class AdBranch():
+    '''
+            生成一个广告及对广告的操作
+    '''
+    def __init__(self):   
+        self.__protpbuf_obj__ = ADBranch()
+        self.filter_dict={}
+        self.AddValidAD()
+    
+    def __str__(self):
+        return MessageToBranch(self.__protpbuf_obj__, '\t', 0, self.filter_dict)
+        
+    def AddValidAD(self):
+        '''
+        '''
+        user = self.__protpbuf_obj__.dasuser.SmartAdd()
+        
+        plan = user.dasplan.SmartAdd()
+        idea = user.dasidea.SmartAdd()
+        crowd = user.dascrowd.SmartAdd()
+        crowd1 = user.dascrowd.SmartAdd()
+        
+        unit = plan.dasunit.SmartAdd()
+        
+        unitidea = unit.dasunitidea.SmartAdd()
+        unitcyc = unit.dasunitcyc.SmartAdd()
+        unitattribute = unit.dasunitattribute.SmartAdd()
+        unitattributeexp = unit.dasunitattributeexp.SmartAdd()
+        unitword = unit.dasunitword.SmartAdd()
+        unitwordexp = unit.dasunitwordexp.SmartAdd()
+        unitcrowd = unit.dasunitcrowd.SmartAdd()
+        unitcrowdexp = unit.dasunitcrowdexp.SmartAdd()
+        unitregion = unit.dasunitregion.SmartAdd()
+        unitipexp = unit.dasunitipexp.SmartAdd()
+        unitaudience = unit.dasunitaudience.SmartAdd()
+        unitos = unit.adsunitos.SmartAdd()
+        unitsite = unit.dasunitsite.SmartAdd()
+        unitsiteexp = unit.dasunitsiteexp.SmartAdd()
+        unittrade = unit.dasunittrade.SmartAdd()
+        unitplace = unit.dasunitplace.SmartAdd()
+        unitappexp = unit.dasunitappexp.SmartAdd()
+        self.UpdateAD("unitidea",ideaid=idea.ideaid) 
+        self.UpdateAD("unitcrowd",rt=str(crowd.crowdid))
+        self.UpdateAD("unitcrowdexp",rt=str(crowd1.crowdid))
+        
+        
+#         self.filter_dict={
+#                     'DasUser'             :['eventid','optype'],
+#                     'DasPlan'             :['eventid','optype'],
+#                     'DasUnit'             :['eventid','optype'],
+#                     'DasIdea'             :['eventid','optype'],
+#                     'DasUnitIdea'            :['eventid','optype'],
+#                     'DasCrowd'           :['eventid','optype'],
+#                     'DasUnitCyc'           :['eventid','optype'],
+#                     'DasUnitAttribute'   :['eventid','optype'],
+#                     'DasUnitAttributeExp'       :['eventid','optype'],
+#                     'DasUnitWord'    :['eventid','optype'],
+#                     'DasUnitWordExp'         :['eventid','optype'],
+#                     'DasUnitCrowd'        :['eventid','optype'],
+#                     'DasUnitCrowdExp' :['eventid','optype'],
+#                     'DasUnitRegion'           :['eventid','optype'],
+#                     'DasUnitIPExp'             :['eventid','optype'],
+#                     'DasUnitAudience'         :['eventid','optype'],
+#                     'DasUnitOS'     :['eventid','optype'],
+#                     'DasUnitSite'      :['eventid','optype'],
+#                     'DasUnitSiteExp'      :['eventid','optype'],
+#                     'DasUnitTrade'      :['eventid','optype'],
+#                     'DasUnitPlace'      :['eventid','optype'],
+#                     'DasUnitAppExp'      :['eventid','optype'],
+#        }
+        
+    def addUser(self):
+        '''
+                        增加一个用户
+        '''
+        user = self.__protpbuf_obj__.dasuser.SmartAdd()
+        
+    def addPlan(self,index_str):
+        '''
+                        在特定用户下增加一个推广组
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 1:
+            raise IndexError,"Index error : Amount of index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan.SmartAdd()"%index_list[0]
+            exec(exec_cmd)
+            
+    def addIdea(self,index_str):
+        '''
+                        在特定用户下增加一个创意
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 1:
+            raise IndexError,"Index error : Amount of index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasidea.SmartAdd()"%index_list[0]
+            exec(exec_cmd)
+    
+    def addCrowd(self,index_str):
+        '''
+                        在特定用户下增加一个人群
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 1:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dascrowd.SmartAdd()"%index_list[0]
+            exec(exec_cmd)
+       
+    def addUnit(self,index_str):
+        '''
+                        在特定用户下的特定推广组下增加一个广告
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 2:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit.SmartAdd()"\
+             %(index_list[0],index_list[1])
+            exec(exec_cmd)
+    
+    def addUnitIdea(self,index_str,link_idea=None):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的广告创意关联，并设置其中关联的ideaid
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        
+        if None == link_idea:
+            exec_cmd ="new_unitidea = self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitidea.SmartAdd();\
+            new_idea = self.__protpbuf_obj__.dasuser[%s].dasidea.SmartAdd();\
+            new_unitidea.ideaid = new_idea.ideaid;"%(index_list[0],index_list[1],index_list[2],index_list[0])
+            exec(exec_cmd)
+
+        else:
+            idea_index_list = link_idea.split("#")
+            if len(idea_index_list) != 2:
+                raise SecondIndexError,"Index error : Idea index amount"
+                return False
+            
+            #new_unitidea
+            exec_cmd = "new_unitidea = self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitidea.SmartAdd();\
+            new_unitidea.ideaid = self.__protpbuf_obj__.dasuser[%s].dasidea[%s].ideaid;"\
+             %(index_list[0],index_list[1],index_list[2],idea_index_list[0],idea_index_list[1])   
+            exec(exec_cmd)
+        
+    def addUnitCyc(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcyc.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+    
+    def addUnitAttribute(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的属性
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitattribute.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitAttributeExp(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitattributeexp.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitWord(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitword.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitWordExp(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitwordexp.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitCrowd(self,index_str,link_crowd=None):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的广告人群关联，并设置其中关联的crowdid
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        
+        if None == link_crowd:
+            exec_cmd ="new_unitcrowd = self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcrowd.SmartAdd();\
+            new_crowd = self.__protpbuf_obj__.dasuser[%s].dascrowd.SmartAdd();\
+            new_unitcrowd.rt = new_unitcrowd.rt+','+new_crowd.crowdid ;"%(index_list[0],index_list[1],index_list[2],index_list[0])
+            exec(exec_cmd)
+
+        else:
+            crowd_index_list = link_crowd.split("#")
+            if len(crowd_index_list) != 2:
+                raise SecondIndexError,"Index error : Idea index amount"
+                return False
+            
+            #new_unitidea
+            exec_cmd = "new_unitcrowd = self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcrowd.SmartAdd();\
+            new_unitcrowd.rt = new_unitcrowd.rt+','+self.__protpbuf_obj__.dasuser[%s].dascrowd[%s].crowdid;"\
+             %(index_list[0],index_list[1],index_list[2],crowd_index_list[0],crowd_index_list[1])   
+            exec(exec_cmd)
+    
+    def addUnitCrowdExp(self,index_str,link_crowd=None):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的广告人群排除关联，并增加其中关联的crowdid
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        
+        if None == link_crowd:
+            exec_cmd ="new_unitcrowdexp = self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcrowdexp.SmartAdd();\
+            new_crowd = self.__protpbuf_obj__.dasuser[%s].dascrowd.SmartAdd();\
+            new_unitcrowdexp.rt = new_unitcrowdexp.rt+','+new_crowd.crowdid ;"%(index_list[0],index_list[1],index_list[2],index_list[0])
+            exec(exec_cmd)
+
+        else:
+            crowd_index_list = link_crowd.split("#")
+            if len(crowd_index_list) != 2:
+                raise SecondIndexError,"Index error : Idea index amount"
+                return False
+            
+            #new_unitidea
+            exec_cmd = "new_unitcrowdexp = self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcrowdexp.SmartAdd();\
+            new_unitcrowdexp.rt = new_unitcrowdexp.rt+','+self.__protpbuf_obj__.dasuser[%s].dascrowd[%s].crowdid;"\
+             %(index_list[0],index_list[1],index_list[2],crowd_index_list[0],crowd_index_list[1])   
+            exec(exec_cmd)
+            
+    def addUnitRegion(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitregion.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+           
+    def addUnitIpExp(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitipexp.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitAudience(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitaudience.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+    
+    def addUnitOS(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitos.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitSite(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitsite.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitSiteExp(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitsiteexp.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitTrade(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunittrade.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitPlace(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitplace.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+            
+    def addUnitAppExp(self,index_str):
+        '''
+                        增加一个特定用户的特定推广组的特定广告下的循环时间段
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index error : no such amount index"
+            return False
+        else:
+            exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitappexp.SmartAdd()"%(index_list[0],index_list[1],index_list[2])
+            exec(exec_cmd)
+     
+    def modifyUser(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 1:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].%s = attr_map[attr_key]"\
+                    %(index_list[0],attr_key)
+                exec(exec_cmd)
+                
+    def modifyPlan(self,index_str,**attr_map):
+        '''
+                        修改一个特定的推广计划
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 2:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].%s = attr_map[attr_key]"\
+                    %(index_list[0],index_list[1],attr_key)
+                exec(exec_cmd)
+                
+    def modifyIdea(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 2:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasidea[%s].%s = attr_map[attr_key]"\
+                    %(index_list[0],index_list[1],attr_key)
+                exec(exec_cmd)
+                
+    def modifyCrowd(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 2:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dascrowd[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnit(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 3:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitIdea(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitidea[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitCyc(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcyc[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+    
+    def modifyUnitAttribute(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitattribute[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitAttributeExp(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitattributeexp[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitWord(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitword[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitWordExp(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitwordexp[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitCrowd(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcrowd[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitCrowdExp(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitcrowdexp[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitRegion(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitregion[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitIPExp(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitipexp[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitAudience(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitaudience[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitOS(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitos[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+    
+    def modifyUnitSite(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitsite[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+    
+    def modifyUnitSiteExp(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitsiteexp[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitTrade(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunittrade[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+    
+    def modifyUnitPlace(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitplace[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+    def modifyUnitAppExp(self,index_str,**attr_map):
+        '''
+                        修改一个特定的用户
+        '''
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        if len(index_list) != 4:
+            raise IndexError,"Index amount error ！"
+            return False
+        else:
+            for attr_key in attr_map.keys():
+                exec_cmd = "self.__protpbuf_obj__.dasuser[%s].dasplan[%s].dasunit[%s].dasunitappexp[%s].%s = attr_map[attr_key]"\
+                 %(index_list[0],index_list[1],index_list[2],index_list[3],attr_key)
+                exec(exec_cmd)
+                
+
+        
+    def UpdateAD(self,level_name,**attr_dict):
+        '''
+                        根据层级名字，修改广告该层属性
+        '''
+        if not attr_dict:
+            return True
+        
+        if "user" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False
+
+        elif "plan" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False  
+        elif "idea" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasidea[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasidea[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False
+        elif "crowd" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dascrowd[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dascrowd[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False
+        elif "unit" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False  
+        elif "unitidea" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitidea[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitidea[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+                   
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False   
+        elif "unitcyc " == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcyc[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcyc[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False     
+        elif "unitattribute" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitattribute[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitattribute[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False  
+        elif "unitattributeexp" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitattributeexp[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitattributeexp[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False   
+        elif "unitword" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitword[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitword[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False    
+        elif "unitwordexp" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitwordexp[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitwordexp[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False  
+        elif "unitcrowd" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcrowd[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcrowd[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False    
+        elif "unitcrowdexp" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcrowdexp[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcrowdexp[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False   
+        elif "unitregion" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitregion[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitregion[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False  
+        elif "unitipexp" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitipexp[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitipexp[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False   
+        elif "unitaudience" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitaudience[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitaudience[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+        elif "unitos" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitos[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitos[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+        elif "unitsite" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitsite[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitsite[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+        elif "unitsiteexp" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitsiteexp[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitsiteexp[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+        elif "unittrade" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunittrade[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunittrade[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+        elif "unitplace" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitplace[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitplace[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+            
+        elif "unitappexp" == level_name:
+            field_des_list = self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitappexp[0].DESCRIPTOR.fields
+            for field_des in field_des_list:
+                field_name = field_des.name
+                if attr_dict.has_key(field_name):
+                    #print "field Name: %s \nattr value: %s"%(field_name,attr_dict[field_name])
+                   # field_des. __setattr__(field_des.name, attr_dict[field_des.name])
+                    exec_cmd =  "self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitappexp[0].%s = attr_dict[field_name]"%field_name
+                    exec(exec_cmd)
+                    del attr_dict[field_name]
+            if attr_dict:
+                raise NameError,"Field name : %s does't exits" %attr_dict.keys()
+                return False 
+            
+        else:
+            raise NameError,"There is no such level : %s"%level_name
+            return False
+    
+    #Get method
+    def getUser(self,index_str):
+        index_list = index_str.split("#")
+
+        if len(index_list) != 1:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])]
+            
+    def getPlan(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 2:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])]
+           
+    
+    def getIdea(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 2:
+            raise IndexError,"Index Amount error !"
+            return False
+        
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasidea[int(index_list[0])]
+    
+    def getCrowd(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 2:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dascrowd[int(index_list[1])]
+        
+    def getUnit(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 3:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].\
+            dasplan[int(index_list[1])].dasunit[int(index_list[2])]
+    
+    def getUnitIdea(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitidea[int(index_list[3])]
+
+    def getUnitCyc(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitcyc[int(index_list[3])]
+    
+    def getUnitAttribute(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitattribute[int(index_list[3])]
+    
+    def getUnitAttributeExp(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitattributeexp[int(index_list[3])]
+    
+    def getUnitWord(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitword[int(index_list[3])]
+    
+    def getUnitWordExp(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitwordexp[int(index_list[3])]
+    
+    def getUnitCrowd(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitcrowd[int(index_list[3])]
+    
+    def getUnitCrowdExp(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitcrowdexp[int(index_list[3])]
+    
+    def getUnitRegion(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitregion[int(index_list[3])]
+    
+    def getUnitIpExp(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitipexp[int(index_list[3])]
+    
+    def getUnitAudience(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitaudience[int(index_list[3])]
+    
+    def getUnitOS(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitos[int(index_list[3])]
+    
+    def getUnitSite(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitsite[int(index_list[3])]
+    
+    def getUnitSiteExp(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitsiteexp[int(index_list[3])]
+    
+    def getUnitTrade(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunittrade[int(index_list[3])]
+    
+    def getUnitPlace(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitplace[int(index_list[3])]
+    
+    def getUnitAppExp(self,index_str,*attr_key_list):
+        index_list = index_str.split("#")
+        exec_cmd = "pass"
+        res_list = []
+        if len(index_list) != 4:
+            raise IndexError,"Index Amount error !"
+            return False
+        return self.__protpbuf_obj__.dasuser[int(index_list[0])].dasplan[int(index_list[1])].\
+            dasunit[int(index_list[2])].dasunitappexp[int(index_list[3])]
+   
+        
+
+if __name__ == "__main__":
+    ad = AdBranch();
+    
+#     ad.addUser()
+#     ad.addUser()
+#     ad.addIdea("1")
+#     ad.addPlan("0")
+#     ad.addPlan("1")
+    print "***********\n",ad
+    ad.addUnitIdea("0#0#0")
+    print "***********\n",ad
+    ad.addUnitIdea("0#0#0","0#1")
+    print "***********\n",ad
+   # user_aatr = []
+   # print ad.getUser("0","userid","isvalid")
+   # print ad.getPlan("0#0","planid","isvalid")
+    ad.modifyUser("0",updatetime="12345",isvalid=1)
+    print ad.getUser("0")
+#     print ad
+#     ad.addUnitIdea("0#0#0","0#0")
+#     print ad
+   # fp = open('./bs_run_env/bs/data/base_v1/0/dsp.info', 'w')
+   # fp.write(str(ad))
+   # fp.close()
+   # user2 = ad.__protpbuf_obj__.dasuser.SmartAdd()
+   # user3 = ad.__protpbuf_obj__.dasuser.SmartAdd()
+   # plan2 = ad.__protpbuf_obj__.dasuser[1].dasplan.SmartAdd()
+   # ad.UpdateAD("plan",planvalidtimeslot="19871111000000-20140223235959",appdiscount=22)
+   # print "After Update with planvalidtimeslot=\"19871111000000-20140223235959\",appdiscount=22"
+   # print ad
+    
+    
+            
+            

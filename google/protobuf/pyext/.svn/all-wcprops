@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/app/ecom/nova/!svn/ver/148210/trunk/tools/robot/lib/google/protobuf/pyext
+END
+python_descriptor.cc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/app/ecom/nova/!svn/ver/148210/trunk/tools/robot/lib/google/protobuf/pyext/python_descriptor.cc
+END
+python_descriptor.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/app/ecom/nova/!svn/ver/148210/trunk/tools/robot/lib/google/protobuf/pyext/python_descriptor.h
+END
+python_protobuf.cc
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/app/ecom/nova/!svn/ver/148210/trunk/tools/robot/lib/google/protobuf/pyext/python_protobuf.cc
+END
+python_protobuf.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/app/ecom/nova/!svn/ver/148210/trunk/tools/robot/lib/google/protobuf/pyext/python_protobuf.h
+END
+python-proto2.cc
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/app/ecom/nova/!svn/ver/148210/trunk/tools/robot/lib/google/protobuf/pyext/python-proto2.cc
+END

@@ -1,0 +1,8 @@
+<main>
+    <module_manager module="bfp">
+        <conf id="gflags" seg="=">
+            <path>conf/startup/</path>
+            <name>gflags.conf</name>
+        </conf>
+    </module_manager>
+</main>

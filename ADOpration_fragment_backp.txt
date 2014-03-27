@@ -1,0 +1,70 @@
+ def getValueByLevelName(self,level_name):
+        if "user" == level_name:
+            return self.__protpbuf_obj__.dasuser[0]
+            
+        elif "plan" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0]
+       
+        elif "idea" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasidea[0]
+        
+        elif "crowd" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dascrowd[0]
+        
+        elif "unit" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0]
+       
+        elif "unitidea" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitidea[0]
+              
+        elif "unitcyc " == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcyc[0]
+        
+        elif "unitattribute" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitattribute[0]
+        
+        elif "unitattributeexp" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitattributeexp[0]
+        
+        elif "unitword" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitword[0]
+          
+        elif "unitwordexp" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitwordexp[0]
+        
+        elif "unitcrowd" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcrowd[0]
+        
+        elif "unitcrowdexp" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitcrowdexp[0]
+           
+        elif "unitregion" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitregion[0]
+         
+        elif "unitipexp" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitipexp[0]
+        
+        elif "unitaudience" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitaudience[0]
+        
+        elif "unitos" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitos[0]
+        
+        elif "unitsite" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitsite[0]
+        
+        elif "unitsiteexp" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitsiteexp[0]
+        
+        elif "unittrade" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunittrade[0]
+        
+        elif "unitplace" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitplace[0]
+        
+        elif "unitappexp" == level_name:
+            return self.__protpbuf_obj__.dasuser[0].dasplan[0].dasunit[0].dasunitappexp[0]
+        
+        else:
+            raise NameError,"There is no such level : %s"%level_name
+            return False

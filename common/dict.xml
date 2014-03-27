@@ -1,0 +1,24 @@
+<main>
+    <module_manager module="bfp">
+        <dict id="adposminimumprice" seg="\t">
+            <path>data/dn_index/union/</path>
+            <name>adposminimumprice.txt</name>
+        </dict>
+        <dict id="cprofilterurl" seg="\t">
+            <path>data/dn_index/union/</path>
+            <name>cprofilterurl.txt</name>
+        </dict>
+        <dict id="domain_tu" seg="\t">
+            <path>data/domain_tu/</path>
+            <name>domain_tu</name>
+        </dict> 
+        <dict id="cprofiltertype" seg="\t">
+            <path>data/dn_index/union/</path>
+            <name>cprofiltertype.txt </name>
+        </dict>
+        <dict id="websiterootsub" seg="\t">
+            <path>data/dn_index/union/</path>
+            <name>websiterootsub.txt</name>
+        </dict> 
+    </module_manager>
+</main>
